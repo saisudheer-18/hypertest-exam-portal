@@ -6,17 +6,28 @@ const keywords = ['assessments', 'exams', 'quizzes']
 
 function HeroSection({ onRouteClick }) {
   const [keywordIndex, setKeywordIndex] = useState(0)
+  const [keywordVisible, setKeywordVisible] = useState(true)
 
   useEffect(() => {
     const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)')
     let interval
+    let transitionTimeout
 
     function syncMotionPreference() {
       window.clearInterval(interval)
-      if (motionPreference.matches) return
+      window.clearTimeout(transitionTimeout)
+
+      if (motionPreference.matches) {
+        setKeywordVisible(true)
+        return
+      }
 
       interval = window.setInterval(() => {
-        setKeywordIndex((current) => (current + 1) % keywords.length)
+        setKeywordVisible(false)
+        transitionTimeout = window.setTimeout(() => {
+          setKeywordIndex((current) => (current + 1) % keywords.length)
+          setKeywordVisible(true)
+        }, 180)
       }, 3000)
     }
 
@@ -24,6 +35,7 @@ function HeroSection({ onRouteClick }) {
     motionPreference.addEventListener('change', syncMotionPreference)
     return () => {
       window.clearInterval(interval)
+      window.clearTimeout(transitionTimeout)
       motionPreference.removeEventListener('change', syncMotionPreference)
     }
   }, [])
@@ -35,9 +47,8 @@ function HeroSection({ onRouteClick }) {
           <h1 id="home-hero-title">
             Turn your{' '}
             <span
-              className="home-hero-keyword"
+              className={`home-hero-keyword${keywordVisible ? '' : ' is-hidden'}`}
               aria-live="off"
-              key={keywords[keywordIndex]}
             >
               {keywords[keywordIndex]}
             </span>{' '}

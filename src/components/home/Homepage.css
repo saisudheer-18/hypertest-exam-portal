@@ -33,7 +33,6 @@ body:has(.home-shell) {
 .home-main {
   flex: 0 0 auto;
   width: 100%;
-  overflow: clip;
   color: #fff;
   font-family: system-ui, 'Segoe UI', sans-serif;
 }
@@ -64,6 +63,7 @@ body:has(.home-shell) {
 .home-hero-copy h1 {
   margin: 0;
   color: #fff;
+  font-family: "Aktiv Grotesk", system-ui, 'Segoe UI', sans-serif;
   font-size: clamp(54px, 4.2vw, 60px);
   font-weight: 700;
   letter-spacing: -0.04em;
@@ -72,10 +72,17 @@ body:has(.home-shell) {
 
 .home-hero-keyword {
   display: inline-block;
-  width: 9.5ch;
+  width: 5.95em;
   color: #64db9b;
+  font-family: inherit;
+  font-weight: 700;
   white-space: nowrap;
-  animation: home-keyword-enter 380ms ease both;
+  opacity: 1;
+  transition: opacity 180ms ease;
+}
+
+.home-hero-keyword.is-hidden {
+  opacity: 0;
 }
 
 .home-hero-keyword-break {
@@ -188,7 +195,7 @@ body:has(.home-shell) {
   align-items: center;
   gap: clamp(28px, 4vw, 56px);
   margin-inline: auto;
-  padding: 15px 75px;
+  padding: 20px 75px;
 }
 
 .home-access-copy {
@@ -198,23 +205,23 @@ body:has(.home-shell) {
 .home-access-copy h2 {
   margin: 0;
   color: #014751;
-  font-size: 38px;
+  font-size: 34px;
   font-weight: 700;
-  line-height: 1.1;
+  line-height: 1.15;
 }
 
 .home-access-copy p {
-  margin: 6px 0 0;
+  margin: 4px 0 0;
   color: #596b87;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 400;
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
 .home-access-copy .home-access-login {
-  margin-top: 2px;
-  font-size: 14px;
-  line-height: 1.25;
+  margin-top: 1px;
+  font-size: 15px;
+  line-height: 1.3;
 }
 
 .home-access-copy a {
@@ -271,7 +278,7 @@ body:has(.home-shell) {
 }
 
 .home-access-form button {
-  min-height: 58px;
+  min-height: 66px;
   flex: 0 0 auto;
   padding: 14px 28px;
   border: 0;
@@ -279,7 +286,7 @@ body:has(.home-shell) {
   color: #fff;
   background: #014751;
   font: inherit;
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 700;
   white-space: nowrap;
   cursor: pointer;
@@ -305,18 +312,6 @@ body:has(.home-shell) {
 
 .home-access-message.is-error {
   color: #8b1e2d;
-}
-
-@keyframes home-keyword-enter {
-  from {
-    opacity: 0.45;
-    transform: translateY(5px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 @keyframes home-showcase-enter {
@@ -404,10 +399,6 @@ body:has(.home-shell) {
     letter-spacing: -0.035em;
   }
 
-  .home-hero-keyword {
-    width: 10ch;
-  }
-
   .home-hero-description {
     margin-block: 18px 26px;
     font-size: 16px;
@@ -440,16 +431,16 @@ body:has(.home-shell) {
 @media (max-width: 950px) {
   .home-access-inner {
     grid-template-columns: minmax(0, 1fr);
-    gap: 22px;
-    padding-block: 28px;
+    gap: 16px;
+    padding-block: 20px;
   }
 
   .home-access-copy h2 {
-    font-size: clamp(32px, 5vw, 38px);
+    font-size: clamp(28px, 3.4vw, 32px);
   }
 
   .home-access-copy p {
-    font-size: 18px;
+    font-size: 17px;
   }
 
   .home-access-form {
@@ -457,28 +448,32 @@ body:has(.home-shell) {
   }
 
   .home-access-form input {
-    min-height: 64px;
+    min-height: 66px;
   }
 
   .home-access-form button {
-    min-height: 58px;
+    min-height: 66px;
     padding-inline: 24px;
-    font-size: 18px;
+    font-size: 19px;
   }
 }
 
 @media (max-width: 520px) {
   .home-access-inner {
-    gap: 18px;
-    padding-block: 24px;
+    gap: 14px;
+    padding-block: 20px;
   }
 
   .home-access-copy h2 {
-    font-size: 30px;
+    font-size: clamp(24px, 6.7vw, 28px);
   }
 
   .home-access-copy p {
     font-size: 17px;
+  }
+
+  .home-access-copy .home-access-login {
+    font-size: 15px;
   }
 
   .home-access-form {
@@ -506,7 +501,7 @@ body:has(.home-shell) {
   }
 
   .home-access-inner {
-    padding-block: 12px;
+    padding-block: 20px;
   }
 }
 
@@ -518,6 +513,10 @@ body:has(.home-shell) {
 }
 
 @media (max-width: 766px) {
+  .home-shell .header-content {
+    min-height: 76px;
+  }
+
   .home-hero-inner,
   .home-access-inner {
     padding-inline: 16px;
@@ -525,10 +524,13 @@ body:has(.home-shell) {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .home-hero-keyword,
   .home-hero-showcase,
   .home-dashboard-image {
     animation: none;
+  }
+
+  .home-hero-keyword {
+    transition: none;
   }
 
   .home-hero-cta,
